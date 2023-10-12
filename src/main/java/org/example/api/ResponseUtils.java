@@ -18,7 +18,7 @@ public class ResponseUtils {
     }
 
 
-    public static void validateResponseByJsonSchema() {
+    public static void validateGetAllResponseByJsonSchema() {
         JsonSchemaFactory jsonSchemaFactory = JsonSchemaFactory.newBuilder()
                 .setValidationConfiguration(
                         ValidationConfiguration.newBuilder()
@@ -28,6 +28,15 @@ public class ResponseUtils {
                 .body(matchesJsonSchemaInClasspath("validatorschemas/getAllPostsValidatorSchema.json")
                         .using(jsonSchemaFactory));
     }
-
+    public static void validateGetByIdResponseByJsonSchema() {
+        JsonSchemaFactory jsonSchemaFactory = JsonSchemaFactory.newBuilder()
+                .setValidationConfiguration(
+                        ValidationConfiguration.newBuilder()
+                                .setDefaultVersion(SchemaVersion.DRAFTV4).freeze())
+                .freeze();
+        getResponse().assertThat()
+                .body(matchesJsonSchemaInClasspath("validatorschemas/getByIdValidatorSchema.json")
+                        .using(jsonSchemaFactory));
+    }
 
 }

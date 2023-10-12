@@ -1,9 +1,16 @@
 package org.example.api;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
+import org.example.api.model.PostDataModel;
+
+import java.io.File;
+import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
 
@@ -16,6 +23,10 @@ public final class RequestUtils {
         return response;
     }
 
+    public static void setResponse(ValidatableResponse response) {
+        RequestUtils.response = response;
+    }
+
     public static void getAllPosts() {
         RestAssured.baseURI = "http://localhost:3000";
         response = given()
@@ -24,32 +35,42 @@ public final class RequestUtils {
                 .then()
                 .log().ifError();
     }
+
     public static void getPostById() {
+        getPostById(null);
+    }
+
+    public static void getPostById(Integer id) {
+        String path = "/posts";
+        if (id != null)
+            path += "/" + id;
+
         RestAssured.baseURI = "http://localhost:3000";
         response = given()
                 .when()
-                .get("/posts/1")
+                .get(path)
                 .then()
                 .log().ifError();
     }
 
-    public static void getPostWithParameter(){
+    public static void getPostWithParameter() {
         RestAssured.baseURI = "http://localhost:3000";
         response = given()
-                .param("id",1)
+                .param("id", 1)
                 .when()
                 .get("/posts")
                 .then()
                 .log().ifError();
     }
+
     public static void addPost() {
         RestAssured.baseURI = "http://localhost:3000";
         response = given()
                 .contentType(ContentType.JSON)
                 .body("{\n" +
-                        "    \"id\": 27,\n" +
-                        "    \"title\": \"post 26\",\n" +
-                        "    \"author\": \"type 26\"\n" +
+                        "    \"id\": 100,\n" +
+                        "    \"title\": \"post 100\",\n" +
+                        "    \"author\": \"type 100\"\n" +
                         "}")
                 .when()
                 .post("/posts")
@@ -57,7 +78,27 @@ public final class RequestUtils {
                 .log().ifError();
     }
 
-    public static void changePostByIdWithPut(){
+    public static void addPost(PostDataModel postDataModel) {
+        String postDataModelJson;
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        try {
+            postDataModelJson = ow.writeValueAsString(postDataModel);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        RestAssured.baseURI = "http://localhost:3000";
+        response = given()
+                .contentType(ContentType.JSON)
+                .body(postDataModelJson)
+                .when()
+                .post("/posts")
+                .then()
+                .log().ifError();
+    }
+
+    public static void changePostByIdWithPut() {
         RestAssured.baseURI = "http://localhost:3000";
         response = given()
                 .contentType(ContentType.JSON)
@@ -72,7 +113,7 @@ public final class RequestUtils {
                 .log().ifError();
     }
 
-    public static void changePostByIdWithPatch(){
+    public static void changePostByIdWithPatch() {
         RestAssured.baseURI = "http://localhost:3000";
         response = given()
                 .contentType(ContentType.JSON)
@@ -85,11 +126,32 @@ public final class RequestUtils {
                 .log().ifError();
     }
 
-    public static void deletePostById(){
+    public static void deletePostById() {
         RestAssured.baseURI = "http://localhost:3000";
         response = given()
                 .when()
-                .delete("/posts/2")
+                .delete("/posts/4")
+                .then()
+                .log().ifError();
+    }
+    public static void deletePost(PostDataModel postDataModel) {
+
+        int postId = postDataModel.getId();
+        String path = "/posts" + "/" + postId;
+
+        RestAssured.baseURI = "http://localhost:3000";
+        response = given()
+                .when()
+                .delete(path)
+                .then()
+                .log().ifError();
+    }
+
+    public static void getAllComments(){
+        RestAssured.baseURI = "http://localhost:3000";
+        response = given()
+                .when()
+                .get("/comments")
                 .then()
                 .log().ifError();
     }
