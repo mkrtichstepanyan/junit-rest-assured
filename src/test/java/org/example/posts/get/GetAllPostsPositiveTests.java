@@ -8,15 +8,16 @@ import org.junit.jupiter.api.Test;
 public class GetAllPostsPositiveTests {
 
     @Test
-    public void validateStatusCode() {
-        RequestUtils.get();
+    public void validateStatusCodeForWrongID() {
+        RequestUtils.getPostByID(-1);
         int statusCode = ResponseUtils.getStatusCode();
-        Assertions.assertEquals(200, statusCode);
+        Assertions.assertEquals(404, statusCode);
     }
 
     @Test
-    public void validateResponseByJsonSchema() {
-        RequestUtils.get();
-        ResponseUtils.validateResponseByJsonSchema();
+    public void getPostByID() {
+        RequestUtils.getPostByID(-1);
+        int responseBody = ResponseUtils.getResponseBody().asString().length();
+        Assertions.assertEquals(2, responseBody);
     }
 }

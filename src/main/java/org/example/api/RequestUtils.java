@@ -15,9 +15,27 @@ public final class RequestUtils {
         return response;
     }
 
-    public static void get() {
+
+    public static void getAllPosts() {
         RestAssured.baseURI = "http://localhost:3000";
         response = given()
+                .when()
+                .get("/posts")
+                .then();
+    }
+
+    public static void getPostByID(int postID) {
+        RestAssured.baseURI = "http://localhost:3000";
+        response = given()
+                .when()
+                .get("/posts/" + postID)
+                .then();
+    }
+
+    public static void getPostByParam(String key, String value) {
+        RestAssured.baseURI = "http://localhost:3000";
+        response = given()
+                .queryParam(key, value)
                 .when()
                 .get("/posts")
                 .then();
