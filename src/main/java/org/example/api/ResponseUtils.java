@@ -3,7 +3,6 @@ package org.example.api;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import io.restassured.response.ResponseBodyExtractionOptions;
 import io.restassured.response.ValidatableResponse;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -13,7 +12,6 @@ public class ResponseUtils {
     public static ValidatableResponse getResponse() {
         return RequestUtils.getResponse();
     }
-
 
     public static int getStatusCode() {
         return getResponse().extract().statusCode();
@@ -31,7 +29,12 @@ public class ResponseUtils {
                         .using(jsonSchemaFactory));
     }
 
-    public static ResponseBodyExtractionOptions getResponseBody() {
-        return getResponse().extract().body();
+
+    public static <T> T getObjectByJsonString(Class<T> type) {
+        return getResponse().extract().as(type);
+    }
+
+    public static String getStringValueByJsonPath(String jsonpath) {
+        return getResponse().extract().jsonPath().getString(jsonpath);
     }
 }

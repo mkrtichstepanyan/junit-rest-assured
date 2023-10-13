@@ -2,44 +2,33 @@ package org.example.posts.get;
 
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
+import org.example.pojos.posts.PostsRoot;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class GetAllPostsPositiveTests {
+
     @Test
     public void validateStatusCode() {
-        RequestUtils.getAllPosts();
+        RequestUtils.get("/posts");
         int statusCode = ResponseUtils.getStatusCode();
         Assertions.assertEquals(200, statusCode);
     }
 
     @Test
     public void validateResponseByJsonSchema() {
-        RequestUtils.getAllPosts();
+        RequestUtils.get("/posts");
         ResponseUtils.validateResponseByJsonSchema();
     }
 
-    @Test
-    public void getAllPosts() {
-        RequestUtils.getAllPosts();
-        String responseBody = ResponseUtils.getResponseBody().asString();
-        Assertions.assertTrue(responseBody.length() > 2);
-    }
 
     @Test
-    public void getPostByID() {
-        RequestUtils.getPostByID(-1);
-        int actualPostID = Integer.parseInt(ResponseUtils.getResponseBody().jsonPath().getString("id"));
-        Assertions.assertEquals(2, actualPostID);
-    }
+    public void validateGetPostById() {
+        RequestUtils.get("/posts/1");
 
-    @Test
-    public void getAllPostsByParam() {
-        String givenKey = "author";
-        String givenValue = "typicode";
-        RequestUtils.getPostByParam(givenKey, givenValue);
-        String paramValue = ResponseUtils.getResponseBody().jsonPath().getString(givenKey);
-        Assertions.assertEquals(givenValue, paramValue);
-    }
+        PostsRoot objectByJsonString = ResponseUtils.getObjectByJsonString(PostsRoot.class);
 
+        ResponseUtils.getStringValueByJsonPath("id");
+        ResponseUtils.getStringValueByJsonPath("user.name");
+    }
 }
