@@ -30,4 +30,11 @@ public class ResponseUtils {
     }
 
 
+    public static <T> T getObjectByJsonString(Class<T> type) {
+        return getResponse().extract().as(type);
+    }
+
+    public static String getStringValueByJsonPath(String jsonpath) {
+        return getResponse().extract().jsonPath().getString(jsonpath);
+    }
 }
