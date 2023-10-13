@@ -14,9 +14,12 @@ public final class RequestUtils {
 
     private static ValidatableResponse response;
 
-
     public static ValidatableResponse getResponse() {
         return response;
+    }
+
+    static {
+        RestAssured.baseURI = "http://localhost:3000";
     }
 
     public static void setResponse(ValidatableResponse response) {
@@ -24,7 +27,6 @@ public final class RequestUtils {
     }
 
     public static void getAllPosts() {
-        RestAssured.baseURI = "http://localhost:3000";
         response = given()
                 .when()
                 .get("/posts")
@@ -41,7 +43,6 @@ public final class RequestUtils {
         if (id != null)
             path += "/" + id;
 
-        RestAssured.baseURI = "http://localhost:3000";
         response = given()
                 .when()
                 .get(path)
@@ -50,7 +51,7 @@ public final class RequestUtils {
     }
 
     public static void getPostWithParameter() {
-        RestAssured.baseURI = "http://localhost:3000";
+
         response = given()
                 .param("id", 1)
                 .when()
@@ -60,7 +61,6 @@ public final class RequestUtils {
     }
 
     public static void addPost() {
-        RestAssured.baseURI = "http://localhost:3000";
         response = given()
                 .contentType(ContentType.JSON)
                 .body("{\n" +
@@ -77,7 +77,6 @@ public final class RequestUtils {
     public static void addPost(PostDataModel postDataModel) {
         String postDataModelJson = objectToJson(postDataModel);
 
-        RestAssured.baseURI = "http://localhost:3000";
         response = given()
                 .contentType(ContentType.JSON)
                 .body(postDataModelJson)
@@ -88,7 +87,6 @@ public final class RequestUtils {
     }
 
     public static void changePostByIdWithPut() {
-        RestAssured.baseURI = "http://localhost:3000";
         response = given()
                 .contentType(ContentType.JSON)
                 .body("{\n" +
@@ -103,7 +101,6 @@ public final class RequestUtils {
     }
 
     public static void changePostByIdWithPatch() {
-        RestAssured.baseURI = "http://localhost:3000";
         response = given()
                 .contentType(ContentType.JSON)
                 .body("{     \n" +
@@ -116,7 +113,6 @@ public final class RequestUtils {
     }
 
     public static void deletePostById() {
-        RestAssured.baseURI = "http://localhost:3000";
         response = given()
                 .when()
                 .delete("/posts/4")
@@ -128,7 +124,6 @@ public final class RequestUtils {
         int postId = postDataModel.getId();
         String path = "/posts" + "/" + postId;
 
-        RestAssured.baseURI = "http://localhost:3000";
         response = given()
                 .when()
                 .delete(path)
@@ -137,10 +132,18 @@ public final class RequestUtils {
     }
 
     public static void getAllComments(){
-        RestAssured.baseURI = "http://localhost:3000";
         response = given()
                 .when()
                 .get("/comments")
+                .then()
+                .log().ifError();
+    }
+
+    public static void getCommentById(int id){
+        String path = "/comments" + "/" + id;
+        response = given()
+                .when()
+                .get(path)
                 .then()
                 .log().ifError();
     }

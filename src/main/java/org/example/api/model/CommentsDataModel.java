@@ -5,6 +5,15 @@ public class CommentsDataModel {
         private String body;
         private int postId;
 
+    public CommentsDataModel(int id, String body, int postId) {
+        this.id = id;
+        this.body = body;
+        this.postId = postId;
+    }
+
+    public CommentsDataModel() {
+    }
+
     public int getId() {
         return id;
     }

@@ -24,11 +24,10 @@ public class GetByIdPositiveTests {
     public void getPostById() {
         int expectedId = 1;
         RequestUtils.getPostById(expectedId);
-        ResponseBodyExtractionOptions body = ResponseUtils.getResponse().extract().body();
-        PostDataModel data = body.as(PostDataModel.class);
+        PostDataModel actualPostDataModel = ResponseUtils.jsonToObject(PostDataModel.class);
 
         System.out.println(ResponseUtils.getResponse().extract().asPrettyString());
-        Assertions.assertEquals(expectedId, data.getId());
+        Assertions.assertEquals(expectedId, actualPostDataModel.getId());
     }
 
     @Test

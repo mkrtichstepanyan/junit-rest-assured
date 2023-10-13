@@ -11,7 +11,7 @@ public class PostPostsPositiveTests {
     PostDataModel postDataModel;
 
     @BeforeEach
-    public void create() {
+    public void start() {
         System.out.println("before");
         postDataModel = createPost(4);
     }
