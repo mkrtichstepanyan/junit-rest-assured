@@ -6,40 +6,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class GetAllPostsNegativeTests {
-    @Test
-    public void validateStatusCode() {
-        RequestUtils.getAllPosts();
-        int statusCode = ResponseUtils.getStatusCode();
-        Assertions.assertEquals(200, statusCode);
-    }
 
     @Test
-    public void validateResponseByJsonSchema() {
-        RequestUtils.getAllPosts();
-        ResponseUtils.validateResponseByJsonSchema();
-    }
-
-    @Test
-    public void getAllPosts() {
-        RequestUtils.getAllPosts();
-        String responseBody = ResponseUtils.getResponseBody().asString();
-        Assertions.assertTrue(responseBody.length() > 2);
-    }
-
-    @Test
-    public void getPostByID() {
+    public void validateStatusCodeForWrongID() {
         RequestUtils.getPostByID(-1);
-        int actualPostID = Integer.parseInt(ResponseUtils.getResponseBody().jsonPath().getString("id"));
-        Assertions.assertEquals(2, actualPostID);
+        int statusCode = ResponseUtils.getStatusCode();
+        Assertions.assertEquals(404, statusCode);
     }
 
     @Test
-    public void getAllPostsByParam() {
-        String givenKey = "author";
-        String givenValue = "typicode";
-        RequestUtils.getPostByParam(givenKey, givenValue);
-        String paramValue = ResponseUtils.getResponseBody().jsonPath().getString(givenKey);
-        Assertions.assertEquals(givenValue, paramValue);
+    public void getPostByWrongID() {
+        RequestUtils.getPostByID(-1);
+        int responseBody = ResponseUtils.getResponseBody().asString().length();
+        Assertions.assertEquals(2, responseBody);
     }
-
 }
