@@ -8,10 +8,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import org.example.api.model.PostDataModel;
-
-import java.io.File;
-import java.util.Objects;
-
 import static io.restassured.RestAssured.given;
 
 public final class RequestUtils {
@@ -79,14 +75,7 @@ public final class RequestUtils {
     }
 
     public static void addPost(PostDataModel postDataModel) {
-        String postDataModelJson;
-
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        try {
-            postDataModelJson = ow.writeValueAsString(postDataModel);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        String postDataModelJson = objectToJson(postDataModel);
 
         RestAssured.baseURI = "http://localhost:3000";
         response = given()
@@ -154,6 +143,19 @@ public final class RequestUtils {
                 .get("/comments")
                 .then()
                 .log().ifError();
+    }
+
+    private static String objectToJson(Object o){
+        String json;
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        try {
+            json = ow.writeValueAsString(o);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return json;
     }
 
 }

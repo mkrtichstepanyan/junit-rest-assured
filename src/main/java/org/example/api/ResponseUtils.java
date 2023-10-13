@@ -39,4 +39,8 @@ public class ResponseUtils {
                         .using(jsonSchemaFactory));
     }
 
+    private static <T>T jsonToObject(Class<T> clazz){
+        return getResponse().extract().as(clazz);
+    }
+
 }
