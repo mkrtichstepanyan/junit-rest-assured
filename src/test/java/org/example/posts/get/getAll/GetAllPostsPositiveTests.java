@@ -5,7 +5,8 @@ import io.restassured.response.ResponseBodyExtractionOptions;
 import io.restassured.response.ValidatableResponse;
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
-import org.example.api.model.PostDataModel;
+import org.example.models.PostDataModel;
+import org.example.pojos.posts.PostsRoot;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,8 +30,19 @@ public class GetAllPostsPositiveTests {
         RequestUtils.getAllPosts();
         ValidatableResponse response = ResponseUtils.getResponse();
         ResponseBodyExtractionOptions body = response.extract().body();
-        List<PostDataModel> res = body.as(new TypeRef<>() {});
-        Assertions.assertEquals(3,res.size());
+        List<PostDataModel> postsList = body.as(new TypeRef<>() {});
+        Assertions.assertEquals(3,postsList.size());
+    }
+
+    @Test
+    @DisplayName("test pojo class")
+    public void validateGetPostById() {
+        RequestUtils.getPostById(1);
+
+        PostsRoot objectByJsonString = ResponseUtils.jsonToObject(PostsRoot.class);
+
+        ResponseUtils.getStringValueByJsonPath("id");
+        ResponseUtils.getStringValueByJsonPath("user.name");
     }
 
     @Test

@@ -1,9 +1,8 @@
 package org.example.posts.get.getById;
 
-import io.restassured.response.ResponseBodyExtractionOptions;
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
-import org.example.api.model.PostDataModel;
+import org.example.models.PostDataModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

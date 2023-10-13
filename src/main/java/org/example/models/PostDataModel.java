@@ -1,4 +1,4 @@
-package org.example.api.model;
+package org.example.models;
 
 import java.util.Objects;
 
@@ -8,7 +8,15 @@ public class PostDataModel {
     private  String title;
     private  String author;
 
+    public PostDataModel() {
 
+    }
+
+    public PostDataModel(Integer id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+    }
 
     public void setAuthor(String author) {
         this.author = author;
@@ -21,11 +29,6 @@ public class PostDataModel {
     public void setTitle(String title) {
         this.title = title;
     }
-
-    public PostDataModel() {
-
-    }
-
 
     public String getAuthor() {
         return author;

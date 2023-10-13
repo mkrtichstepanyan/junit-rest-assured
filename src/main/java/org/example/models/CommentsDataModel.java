@@ -1,4 +1,4 @@
-package org.example.api.model;
+package org.example.models;
 
 public class CommentsDataModel {
         private int id;

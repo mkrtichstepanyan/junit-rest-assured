@@ -3,11 +3,10 @@ package org.example.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
-import org.example.api.model.PostDataModel;
+import org.example.models.PostDataModel;
 import static io.restassured.RestAssured.given;
 
 public final class RequestUtils {
@@ -148,27 +147,15 @@ public final class RequestUtils {
                 .log().ifError();
     }
 
-    private static String objectToJson(Object o){
-        String json;
-
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        try {
-            json = ow.writeValueAsString(o);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        return json;
-    }
-
-    public static String getJsonStringByObject(Object o) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public static String objectToJson(Object o){
         String jsonString;
+        ObjectMapper om = new ObjectMapper();
         try {
-            jsonString = objectMapper.writeValueAsString(o);
+            jsonString = om.writeValueAsString(o);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+
         return jsonString;
     }
 }

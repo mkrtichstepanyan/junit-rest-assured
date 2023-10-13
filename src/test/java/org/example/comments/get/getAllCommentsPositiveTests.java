@@ -2,7 +2,7 @@ package org.example.comments.get;
 
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
-import org.example.api.model.CommentsDataModel;
+import org.example.models.CommentsDataModel;
 import org.junit.jupiter.api.*;
 
 public class getAllCommentsPositiveTests {

@@ -39,13 +39,10 @@ public class ResponseUtils {
                         .using(jsonSchemaFactory));
     }
 
-    public static <T>T jsonToObject(Class<T> clazz){
-        return getResponse().extract().as(clazz);
+    public static <T>T jsonToObject(Class<T> whatClazz){
+        return getResponse().extract().as(whatClazz);
     }
 
-    public static <T> T getObjectByJsonString(Class<T> type) {
-        return getResponse().extract().as(type);
-    }
 
     public static String getStringValueByJsonPath(String jsonpath) {
         return getResponse().extract().jsonPath().getString(jsonpath);

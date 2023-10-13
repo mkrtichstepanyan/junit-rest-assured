@@ -1,54 +1,88 @@
 package org.example.posts.post;
 
+import io.restassured.response.ResponseBodyExtractionOptions;
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
-import org.example.models.Post;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.example.models.PostDataModel;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class CreatePostsPositiveTests {
 
+    PostDataModel postDataModel;
+
+    @BeforeEach
+    public void start() {
+        System.out.println("before create postDataModel");
+        postDataModel = createPost(4);
+    }
+
+
     @Test
-    public void validatePostCreation() {
-
-        Post post = new Post(3, "Title3", "Author3");
-
-        String jsonStringByObject = RequestUtils.getJsonStringByObject(post);
-
-        RequestUtils.post("/posts", jsonStringByObject);
-
+    @DisplayName("Request add post then validate stratus code is 201")
+    public void validateStatusCode() {
+        RequestUtils.addPost(postDataModel);
         int statusCode = ResponseUtils.getStatusCode();
-
+        System.out.println(ResponseUtils.getResponse().extract().asPrettyString());
         Assertions.assertEquals(201, statusCode);
     }
 
+    @Test
+    @DisplayName("Request add post then validate id")
+    public void validatePostId() {
+        RequestUtils.addPost(postDataModel);
+        System.out.println(ResponseUtils.getResponse().extract().asPrettyString());
+
+        ResponseBodyExtractionOptions body = RequestUtils.getResponse().extract().body();
+        PostDataModel newPostDataModel = body.as(PostDataModel.class);
+        Assertions.assertEquals(postDataModel.getId(), newPostDataModel.getId());
+    }
+
+    @Test
+    @DisplayName("Request add post then validate all post")
+    public void validateAllPost() {
+        RequestUtils.addPost(postDataModel);
+        System.out.println(ResponseUtils.getResponse().extract().asPrettyString());
+
+        ResponseBodyExtractionOptions body = RequestUtils.getResponse().extract().body();
+        PostDataModel newPostDataModel = body.as(PostDataModel.class);
+        Assertions.assertEquals(postDataModel, newPostDataModel);
+    }
 
     @ParameterizedTest
     @CsvSource(
             {
                     "6,Title4,Author4",
-                    "6,Title5,Author5"
+                    "7,Title5,Author5"
             }
     )
     public void validatePostCreation(int id, String title, String author) {
 
-        Post actualPost = new Post(id, title, author);
+        postDataModel = new PostDataModel(id, title, author);
 
-        String jsonStringByObject = RequestUtils.getJsonStringByObject(actualPost);
-
-        RequestUtils.post("/posts", jsonStringByObject);
+        RequestUtils.addPost(postDataModel);
 
         int statusCode = ResponseUtils.getStatusCode();
 
         Assertions.assertEquals(201, statusCode);
 
-        RequestUtils.get("/posts", id);
+        RequestUtils.getPostById(id);
 
-        Post expectedPost = ResponseUtils.getObjectByJsonString(Post.class);
+        PostDataModel expectedPost = ResponseUtils.jsonToObject(PostDataModel.class);
 
-        Assertions.assertEquals(actualPost, expectedPost);
+        Assertions.assertEquals(postDataModel, expectedPost);
+    }
+
+    @AfterEach
+    public void clear() {
+        System.out.println("after delete PostDataModel");
+        RequestUtils.setResponse(null);
+        RequestUtils.deletePost(postDataModel);
+    }
+
+    private PostDataModel createPost(int id) {
+        return new PostDataModel(id,"json-server_" + id,"typicode_" + id);
     }
 
 }
