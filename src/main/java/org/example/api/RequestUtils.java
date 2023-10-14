@@ -131,7 +131,7 @@ public final class RequestUtils {
                 .log().ifError();
     }
 
-    public static void getAllComments(){
+    public static void getAllComments() {
         response = given()
                 .when()
                 .get("/comments")
@@ -161,4 +161,14 @@ public final class RequestUtils {
         return json;
     }
 
+    public static String getJsonStringByObject(Object o) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString;
+        try {
+            jsonString = objectMapper.writeValueAsString(o);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return jsonString;
+    }
 }

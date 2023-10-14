@@ -43,4 +43,11 @@ public class ResponseUtils {
         return getResponse().extract().as(clazz);
     }
 
+    public static <T> T getObjectByJsonString(Class<T> type) {
+        return getResponse().extract().as(type);
+    }
+
+    public static String getStringValueByJsonPath(String jsonpath) {
+        return getResponse().extract().jsonPath().getString(jsonpath);
+    }
 }
