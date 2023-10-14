@@ -2,17 +2,17 @@ package org.example.comments.get;
 
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
-import org.example.models.CommentsDataModel;
+import org.example.models.CommentDataModel;
 import org.junit.jupiter.api.*;
 
-public class getAllCommentsPositiveTests {
+public class GetAllCommentsPositiveTests {
 
 
-    CommentsDataModel commentsDataModel;
+    CommentDataModel comment;
     @AfterEach
     public void start(){
         System.out.println("after");
-        commentsDataModel = createComment();
+        comment = createComment();
     }
 
     @Test
@@ -28,7 +28,7 @@ public class getAllCommentsPositiveTests {
     public void getCommentsById() {
         int expectedResult = 1;
         RequestUtils.getCommentById(expectedResult);
-        CommentsDataModel actualCommentsDataModel = ResponseUtils.jsonToObject(CommentsDataModel.class);
+        CommentDataModel actualCommentsDataModel = ResponseUtils.jsonToObject(CommentDataModel.class);
         System.out.println(RequestUtils.getResponse().extract().asPrettyString());
         Assertions.assertEquals(expectedResult,actualCommentsDataModel.getId());
 
@@ -40,7 +40,7 @@ public class getAllCommentsPositiveTests {
 
     }
 
-    private static CommentsDataModel createComment() {
-        return new CommentsDataModel(2, "2 comment", 2);
+    private static CommentDataModel createComment() {
+        return new CommentDataModel(2, "2 comment", 2);
     }
 }

@@ -1,17 +1,17 @@
 package org.example.models;
 
-public class CommentsDataModel {
+public class CommentDataModel {
         private int id;
         private String body;
         private int postId;
 
-    public CommentsDataModel(int id, String body, int postId) {
+    public CommentDataModel(int id, String body, int postId) {
         this.id = id;
         this.body = body;
         this.postId = postId;
     }
 
-    public CommentsDataModel() {
+    public CommentDataModel() {
     }
 
     public int getId() {

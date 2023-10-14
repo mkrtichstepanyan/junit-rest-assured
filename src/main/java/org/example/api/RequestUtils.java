@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
+import org.example.models.CommentDataModel;
 import org.example.models.PostDataModel;
+
 import static io.restassured.RestAssured.given;
 
 public final class RequestUtils {
@@ -59,19 +61,19 @@ public final class RequestUtils {
                 .log().ifError();
     }
 
-    public static void addPost() {
-        response = given()
-                .contentType(ContentType.JSON)
-                .body("{\n" +
-                        "    \"id\": 100,\n" +
-                        "    \"title\": \"post 100\",\n" +
-                        "    \"author\": \"type 100\"\n" +
-                        "}")
-                .when()
-                .post("/posts")
-                .then()
-                .log().ifError();
-    }
+//    public static void addPost() {
+//        response = given()
+//                .contentType(ContentType.JSON)
+//                .body("{\n" +
+//                        "    \"id\": 100,\n" +
+//                        "    \"title\": \"post 100\",\n" +
+//                        "    \"author\": \"type 100\"\n" +
+//                        "}")
+//                .when()
+//                .post("/posts")
+//                .then()
+//                .log().ifError();
+//    }
 
     public static void addPost(PostDataModel postDataModel) {
         String postDataModelJson = objectToJson(postDataModel);
@@ -111,13 +113,15 @@ public final class RequestUtils {
                 .log().ifError();
     }
 
-    public static void deletePostById() {
+    public static void deletePost(int id) {
+        String path = "/posts" + "/" + id;
         response = given()
                 .when()
-                .delete("/posts/4")
+                .delete(path)
                 .then()
                 .log().ifError();
     }
+
     public static void deletePost(PostDataModel postDataModel) {
 
         int postId = postDataModel.getId();
@@ -138,7 +142,7 @@ public final class RequestUtils {
                 .log().ifError();
     }
 
-    public static void getCommentById(int id){
+    public static void getCommentById(int id) {
         String path = "/comments" + "/" + id;
         response = given()
                 .when()
@@ -147,7 +151,38 @@ public final class RequestUtils {
                 .log().ifError();
     }
 
-    public static String objectToJson(Object o){
+    public static void deleteComment(int id) {
+        String path = "/comments" + "/" +id;
+        response = given()
+                .when()
+                .delete(path)
+                .then()
+                .log().ifError();
+    }
+
+    public static void deleteComment(CommentDataModel commentDataModel) {
+        int id = commentDataModel.getId();
+        String path = "/comments" + "/" +id;
+        response = given()
+                .when()
+                .delete(path)
+                .then()
+                .log().ifError();
+    }
+
+    public static void addComment(CommentDataModel commentDataModel){
+        String jsonString = RequestUtils.objectToJson(commentDataModel);
+        String path = "/comments";
+        response = given()
+                .contentType(ContentType.JSON)
+                .body(jsonString)
+                .when()
+                .post(path)
+                .then()
+                .log().ifError();
+    }
+
+    public static String objectToJson(Object o) {
         String jsonString;
         ObjectMapper om = new ObjectMapper();
         try {
