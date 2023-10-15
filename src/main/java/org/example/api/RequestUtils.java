@@ -35,6 +35,14 @@ public final class RequestUtils {
                 .then();
     }
 
+    public static void get(String endpoint, String paramKey, String paramValue) {
+        response = given()
+                .queryParam(paramKey, paramValue)
+                .when()
+                .get(endpoint)
+                .then();
+    }
+
 
     public static void post(String endpoint, String body) {
         response = given()
@@ -42,6 +50,31 @@ public final class RequestUtils {
                 .contentType(ContentType.JSON)
                 .body(body)
                 .post(endpoint)
+                .then();
+    }
+
+    public static void put(String endpoint, String body) {
+        response = given()
+                .contentType(ContentType.JSON)
+                .when()
+                .body(body)
+                .put(endpoint)
+                .then();
+    }
+
+    public static void patch(String endpoint, String patchData) {
+        response = given()
+                .contentType(ContentType.JSON)
+                .when()
+                .body(patchData)
+                .patch(endpoint)
+                .then();
+    }
+
+    public static void delete(String endpoint, int id) {
+        response = given()
+                .when()
+                .delete(endpoint + id)
                 .then();
     }
 

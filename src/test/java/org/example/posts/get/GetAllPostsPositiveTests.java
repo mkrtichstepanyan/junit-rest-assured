@@ -18,7 +18,7 @@ public class GetAllPostsPositiveTests {
     @Test
     public void validateResponseByJsonSchema() {
         RequestUtils.get("/posts");
-        ResponseUtils.validateResponseByJsonSchema();
+        ResponseUtils.validateResponseByJsonSchema("validatorschemas/getAllPostsValidatorSchema.json");
     }
 
 

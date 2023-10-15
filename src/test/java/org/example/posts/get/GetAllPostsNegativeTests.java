@@ -9,15 +9,15 @@ public class GetAllPostsNegativeTests {
 
     @Test
     public void validateStatusCodeForWrongID() {
-        RequestUtils.getPostByID(-1);
+        RequestUtils.get("/posts/-1");
         int statusCode = ResponseUtils.getStatusCode();
         Assertions.assertEquals(404, statusCode);
     }
 
     @Test
     public void getPostByWrongID() {
-        RequestUtils.getPostByID(-1);
-        int responseBody = ResponseUtils.getResponseBody().asString().length();
+        RequestUtils.get("/posts",-1);
+        int responseBody = ResponseUtils.getStringValueByJsonPath("/posts").length();
         Assertions.assertEquals(2, responseBody);
     }
 }

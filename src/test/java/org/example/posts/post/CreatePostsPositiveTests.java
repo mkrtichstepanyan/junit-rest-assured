@@ -28,8 +28,8 @@ public class CreatePostsPositiveTests {
     @ParameterizedTest
     @CsvSource(
             {
-                    "6,Title4,Author4",
-                    "6,Title5,Author5"
+                    "4,Title4,Author4",
+                    "5,Title5,Author5"
             }
     )
     public void validatePostCreation(int id, String title, String author) {
@@ -44,7 +44,7 @@ public class CreatePostsPositiveTests {
 
         Assertions.assertEquals(201, statusCode);
 
-        RequestUtils.get("/posts", id);
+        RequestUtils.get("/posts/", id);
 
         Post expectedPost = ResponseUtils.getObjectByJsonString(Post.class);
 
