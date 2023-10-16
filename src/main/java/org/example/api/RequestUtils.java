@@ -182,6 +182,20 @@ public final class RequestUtils {
                 .log().ifError();
     }
 
+    public static void putComment(CommentDataModel commentDataModel){
+
+        String path = "/comments/" + commentDataModel.getId();
+        String s = objectToJson(commentDataModel);
+        response = given()
+                .contentType(ContentType.JSON)
+                .body(s)
+                .when()
+                .put(path)
+                .then()
+                .log().ifError();
+
+    }
+
     public static String objectToJson(Object o) {
         String jsonString;
         ObjectMapper om = new ObjectMapper();
