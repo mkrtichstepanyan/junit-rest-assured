@@ -46,8 +46,7 @@ public class CreatePostsPositiveTests {
         RequestUtils.addPost(post);
         System.out.println(ResponseUtils.getResponse().extract().asPrettyString());
 
-        ResponseBodyExtractionOptions body = RequestUtils.getResponse().extract().body();
-        PostDataModel newPostDataModel = body.as(PostDataModel.class);
+        PostDataModel newPostDataModel = ResponseUtils.jsonToObject(PostDataModel.class);
         Assertions.assertEquals(post, newPostDataModel);
     }
 

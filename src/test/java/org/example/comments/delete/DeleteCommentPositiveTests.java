@@ -16,7 +16,7 @@ public class DeleteCommentPositiveTests {
         comment = Creater.createComment(1);
     }
     @Test
-    @DisplayName("delete comment, then valdate status code")
+    @DisplayName("delete comment, then validate status code")
     public void deleteComment(){
 
         RequestUtils.addComment(comment);
