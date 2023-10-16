@@ -1,7 +1,8 @@
-package org.example.posts.get;
+package org.example.comments.get;
 
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
+import org.example.models.Comment;
 import org.example.pojos.posts.PostsRoot;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,25 +11,24 @@ public class GetAllPostsPositiveTests {
 
     @Test
     public void validateStatusCode() {
-        RequestUtils.get("/posts");
+        RequestUtils.get("/comments");
         int statusCode = ResponseUtils.getStatusCode();
         Assertions.assertEquals(200, statusCode);
     }
 
     @Test
     public void validateResponseByJsonSchema() {
-        RequestUtils.get("/posts");
-        ResponseUtils.validateResponseByJsonSchema();
+        RequestUtils.get("/comments");
+        ResponseUtils.validateResponseByJsonSchema("validatorschemas/getAllCommentsValidatorSchema.json");
     }
 
 
     @Test
-    public void validateGetPostById() {
-        RequestUtils.get("/posts/1");
+    public void validateGetCommentById() {
+        RequestUtils.get("/comments", 1);
 
-        PostsRoot objectByJsonString = ResponseUtils.getObjectByJsonString(PostsRoot.class);
+        Comment objectByJsonString = ResponseUtils.getObjectByJsonString(Comment.class);
 
         ResponseUtils.getStringValueByJsonPath("id");
-        ResponseUtils.getStringValueByJsonPath("user.name");
     }
 }

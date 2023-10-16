@@ -9,18 +9,17 @@
           "type": "integer",
           "minimum": 1
         },
-        "title": {
+        "body": {
           "type": "string"
         },
-        "author": {
-          "type": "string",
-          "maxLength": 30
+        "postId": {
+          "type": "integer"
         }
       },
       "required": [
         "id",
-        "title",
-        "author"
+        "body",
+        "postId"
       ]
     }
   ]

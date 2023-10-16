@@ -29,7 +29,7 @@ public class CreatePostsPositiveTests {
     @CsvSource(
             {
                     "6,Title4,Author4",
-                    "6,Title5,Author5"
+                    "7,Title5,Author5"
             }
     )
     public void validatePostCreation(int id, String title, String author) {
@@ -48,7 +48,7 @@ public class CreatePostsPositiveTests {
 
         Post expectedPost = ResponseUtils.getObjectByJsonString(Post.class);
 
-        Assertions.assertEquals(actualPost, expectedPost);
+        Assertions.assertEquals(expectedPost, actualPost);
     }
 
 }

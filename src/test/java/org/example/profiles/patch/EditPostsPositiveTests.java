@@ -1,8 +1,7 @@
-package org.example.posts.patch;
+package org.example.profiles.patch;
 
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
-import org.example.models.Comment;
 import org.example.models.Post;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

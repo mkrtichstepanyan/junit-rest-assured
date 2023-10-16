@@ -10,12 +10,12 @@ import io.restassured.response.ValidatableResponse;
 import static io.restassured.RestAssured.given;
 
 public final class RequestUtils {
+    private static ValidatableResponse response;
 
     public static ValidatableResponse getResponse() {
         return response;
     }
 
-    private static ValidatableResponse response;
 
     static {
         RestAssured.baseURI = "http://localhost:3000";
@@ -31,7 +31,7 @@ public final class RequestUtils {
     public static void get(String endpoint, int id) {
         response = given()
                 .when()
-                .get(endpoint + id)
+                .get(endpoint + "/" + id)
                 .then();
     }
 
@@ -44,6 +44,35 @@ public final class RequestUtils {
                 .post(endpoint)
                 .then();
     }
+
+    public static void put(String endpoint, String body) {
+        response = given()
+                .when()
+                .contentType(ContentType.JSON)
+                .body(body)
+                .put(endpoint)
+                .then();
+    }
+
+
+    public static void patch(String endpoint, String body) {
+        response = given()
+                .when()
+                .contentType(ContentType.JSON)
+                .body(body)
+                .patch(endpoint)
+                .then();
+    }
+
+
+    public static void delete(String endpoint/*, int id*/) {
+        response = given()
+                .when()
+                .delete(endpoint /*+ "/" + id*/)
+                .then();
+    }
+
+
 
 
     public static String getJsonStringByObject(Object o) {

@@ -18,7 +18,7 @@ public class GetAllPostsPositiveTests {
     @Test
     public void validateResponseByJsonSchema() {
         RequestUtils.get("/posts");
-        ResponseUtils.validateResponseByJsonSchema();
+        ResponseUtils.validateResponseByJsonSchema("validatorschemas/getAllPostsValidatorSchema.json");
     }
 
 
@@ -28,7 +28,7 @@ public class GetAllPostsPositiveTests {
 
         PostsRoot objectByJsonString = ResponseUtils.getObjectByJsonString(PostsRoot.class);
 
-        ResponseUtils.getStringValueByJsonPath("id");
-        ResponseUtils.getStringValueByJsonPath("user.name");
+        System.out.println(ResponseUtils.getStringValueByJsonPath("id"));
+        System.out.println(ResponseUtils.getStringValueByJsonPath("user.name"));
     }
 }

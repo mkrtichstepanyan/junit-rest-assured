@@ -1,4 +1,4 @@
-package org.example.posts.get;
+package org.example.comments.get;
 
 public class GetAllPostsNegativeTests {
 }

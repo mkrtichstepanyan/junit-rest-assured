@@ -1,8 +1,9 @@
-package org.example.posts.post;
+package org.example.profiles.post;
 
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
 import org.example.models.Post;
+import org.example.models.Profile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,11 +14,11 @@ public class CreatePostsPositiveTests {
     @Test
     public void validatePostCreation() {
 
-        Post post = new Post(3, "Title3", "Author3");
+        Profile profile = new Profile("New");
 
-        String jsonStringByObject = RequestUtils.getJsonStringByObject(post);
+        String jsonStringByObject = RequestUtils.getJsonStringByObject(profile);
 
-        RequestUtils.post("/posts", jsonStringByObject);
+        RequestUtils.post("/profile", jsonStringByObject);
 
         int statusCode = ResponseUtils.getStatusCode();
 

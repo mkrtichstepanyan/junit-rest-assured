@@ -1,49 +1,50 @@
-package org.example.comments.patch;
+package org.example.posts.patch;
 
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
 import org.example.models.Comment;
+import org.example.models.Post;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class EditCommentsPositiveTests {
+public class EditPostsPositiveTests {
     @Test
-    public void validateBodyEdition() {
+    public void validateAuthorEdition() {
 
-        RequestUtils.patch("/comments/1", "{\n" +
-                "    \"body\": \"body changed with patch\"\n" +
+        RequestUtils.patch("/posts/1", "{\n" +
+                "    \"author\": \"author changed with patch\"\n" +
                 "}");
 
         int statusCode = ResponseUtils.getStatusCode();
 
         Assertions.assertEquals(200, statusCode);
 
-        RequestUtils.get("/comments", 1);
+        RequestUtils.get("/posts", 1);
 
-        Comment comment = ResponseUtils.getObjectByJsonString(Comment.class);
+        Post post = ResponseUtils.getObjectByJsonString(Post.class);
 
-        Assertions.assertEquals("body changed with patch", comment.body);
+        Assertions.assertEquals("author changed with patch", post.author);
 
 
     }
 
 
     @Test
-    public void validatePostIdEdition() {
+    public void validateTitleEdition() {
 
-        RequestUtils.patch("/comments/1", "{\n" +
-                "    \"postId\": \"11\"\n" +
+        RequestUtils.patch("/posts/1", "{\n" +
+                "    \"title\": \"title changed with patch\"\n" +
                 "}");
 
         int statusCode = ResponseUtils.getStatusCode();
 
         Assertions.assertEquals(200, statusCode);
 
-        RequestUtils.get("/comments", 1);
+        RequestUtils.get("/posts", 1);
 
-        Comment comment = ResponseUtils.getObjectByJsonString(Comment.class);
+        Post post = ResponseUtils.getObjectByJsonString(Post.class);
 
-        Assertions.assertEquals(11, comment.postId);
+        Assertions.assertEquals("title changed with patch", post.title);
 
     }
 }

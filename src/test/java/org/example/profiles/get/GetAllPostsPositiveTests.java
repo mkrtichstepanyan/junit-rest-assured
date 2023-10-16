@@ -1,4 +1,4 @@
-package org.example.posts.get;
+package org.example.profiles.get;
 
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
@@ -10,25 +10,16 @@ public class GetAllPostsPositiveTests {
 
     @Test
     public void validateStatusCode() {
-        RequestUtils.get("/posts");
+        RequestUtils.get("/profile");
         int statusCode = ResponseUtils.getStatusCode();
         Assertions.assertEquals(200, statusCode);
     }
 
     @Test
     public void validateResponseByJsonSchema() {
-        RequestUtils.get("/posts");
-        ResponseUtils.validateResponseByJsonSchema("validatorschemas/getAllPostsValidatorSchema.json");
+        RequestUtils.get("/profile");
+        ResponseUtils.validateResponseByJsonSchema("validatorschemas/getAllProfilesValidatorSchema.json");
     }
 
 
-    @Test
-    public void validateGetPostById() {
-        RequestUtils.get("/posts/1");
-
-        PostsRoot objectByJsonString = ResponseUtils.getObjectByJsonString(PostsRoot.class);
-
-        System.out.println(ResponseUtils.getStringValueByJsonPath("id"));
-        System.out.println(ResponseUtils.getStringValueByJsonPath("user.name"));
-    }
 }

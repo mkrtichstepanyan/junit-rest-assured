@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-public class Comments {
+public class Comment {
     @JsonProperty
     public int id;
     @JsonProperty
@@ -12,13 +12,13 @@ public class Comments {
     @JsonProperty
     public int postId;
 
-    public Comments(int id, String body, int postId) {
+    public Comment(int id, String body, int postId) {
         this.id = id;
         this.body = body;
         this.postId = postId;
     }
 
-    public Comments() {
+    public Comment() {
     }
 
 
@@ -26,7 +26,7 @@ public class Comments {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Comments comments = (Comments) o;
+        Comment comments = (Comment) o;
         return id == comments.id && body.equals(comments.body) && postId == comments.postId;
     }
 

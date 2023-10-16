@@ -1,4 +1,4 @@
-package org.example.comments.patch.put;
+package org.example.comments.patch;
 
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
@@ -9,38 +9,41 @@ import org.junit.jupiter.api.Test;
 public class EditCommentsPositiveTests {
     @Test
     public void validateBodyEdition() {
-        int id = 1;
-        RequestUtils.get("/comments", id);
 
-        Comment comment = ResponseUtils.getObjectByJsonString(Comment.class);
-
-        comment.body = "10";
-
-        String jsonStringByObject = RequestUtils.getJsonStringByObject(comment);
-
-        RequestUtils.put("/comments/1", jsonStringByObject);
+        RequestUtils.patch("/comments/1", "{\n" +
+                "    \"body\": \"body changed with patch\"\n" +
+                "}");
 
         int statusCode = ResponseUtils.getStatusCode();
 
         Assertions.assertEquals(200, statusCode);
+
+        RequestUtils.get("/comments", 1);
+
+        Comment comment = ResponseUtils.getObjectByJsonString(Comment.class);
+
+        Assertions.assertEquals("body changed with patch", comment.body);
+
+
     }
 
 
     @Test
     public void validatePostIdEdition() {
-        int id = 1;
-        RequestUtils.get("/comments", id);
 
-        Comment comment = ResponseUtils.getObjectByJsonString(Comment.class);
-
-        comment.postId = 10;
-
-        String jsonStringByObject = RequestUtils.getJsonStringByObject(comment);
-
-        RequestUtils.put("/comments/1", jsonStringByObject);
+        RequestUtils.patch("/comments/1", "{\n" +
+                "    \"postId\": \"11\"\n" +
+                "}");
 
         int statusCode = ResponseUtils.getStatusCode();
 
         Assertions.assertEquals(200, statusCode);
+
+        RequestUtils.get("/comments", 1);
+
+        Comment comment = ResponseUtils.getObjectByJsonString(Comment.class);
+
+        Assertions.assertEquals(11, comment.postId);
+
     }
 }

@@ -1,55 +1,57 @@
-package org.example.comments.put;
+package org.example.posts.put;
 
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
 import org.example.models.Comment;
+import org.example.models.Post;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class EditCommentsPositiveTests {
+public class EditCommentsPostsTests {
     @Test
-    public void validateBodyEdition() {
+    public void validateTitleEdition() {
         int id = 1;
-        RequestUtils.get("/comments", id);
+        RequestUtils.get("/posts", id);
 
-        Comment comment = ResponseUtils.getObjectByJsonString(Comment.class);
+        Post post = ResponseUtils.getObjectByJsonString(Post.class);
 
-        comment.body = "body changed with put";
+        post.title = "title";
 
-        String jsonStringByObject = RequestUtils.getJsonStringByObject(comment);
+        String jsonStringByObject = RequestUtils.getJsonStringByObject(post);
 
-        RequestUtils.put("/comments/1", jsonStringByObject);
+        RequestUtils.put("/posts/1", jsonStringByObject);
 
         int statusCode = ResponseUtils.getStatusCode();
 
         Assertions.assertEquals(200, statusCode);
 
-        Comment expectedComment = ResponseUtils.getObjectByJsonString(Comment.class);
 
-        Assertions.assertEquals(expectedComment, comment);
+        Post expectedPost = ResponseUtils.getObjectByJsonString(Post.class);
+
+        Assertions.assertEquals(expectedPost, post);
     }
 
 
     @Test
-    public void validatePostIdEdition() {
+    public void validateAuthorEdition() {
         int id = 1;
-        RequestUtils.get("/comments", id);
+        RequestUtils.get("/posts", id);
 
-        Comment comment = ResponseUtils.getObjectByJsonString(Comment.class);
+        Post post = ResponseUtils.getObjectByJsonString(Post.class);
 
-        comment.postId = 10;
+        post.author = "Tumanyan";
 
-        String jsonStringByObject = RequestUtils.getJsonStringByObject(comment);
+        String jsonStringByObject = RequestUtils.getJsonStringByObject(post);
 
-        RequestUtils.put("/comments/1", jsonStringByObject);
+        RequestUtils.put("/posts/1", jsonStringByObject);
 
         int statusCode = ResponseUtils.getStatusCode();
 
         Assertions.assertEquals(200, statusCode);
 
 
-        Comment expectedComment = ResponseUtils.getObjectByJsonString(Comment.class);
+        Post expectedPost = ResponseUtils.getObjectByJsonString(Post.class);
 
-        Assertions.assertEquals(expectedComment, comment);
+        Assertions.assertEquals(expectedPost, post);
     }
 }

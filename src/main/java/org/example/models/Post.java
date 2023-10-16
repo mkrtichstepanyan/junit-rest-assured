@@ -26,12 +26,24 @@ public class Post {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Post post = (Post) o;
+        System.out.println(id+title+author);
+        System.out.println(post.toString());
         return id == post.id && title.equals(post.title) && author.equals(post.author);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, title, author);
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                '}';
     }
 }

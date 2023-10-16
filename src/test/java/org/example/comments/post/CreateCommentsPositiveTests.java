@@ -2,22 +2,23 @@ package org.example.comments.post;
 
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
+import org.example.models.Comment;
 import org.example.models.Post;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class CreatePostsPositiveTests {
+public class CreateCommentsPositiveTests {
 
     @Test
-    public void validatePostCreation() {
+    public void validateCommentCreation() {
 
-        Post post = new Post(3, "Title3", "Author3");
+        Comment comment = new Comment(2, "Title2", 2);
 
-        String jsonStringByObject = RequestUtils.getJsonStringByObject(post);
+        String jsonStringByObject = RequestUtils.getJsonStringByObject(comment);
 
-        RequestUtils.post("/posts", jsonStringByObject);
+        RequestUtils.post("/comments", jsonStringByObject);
 
         int statusCode = ResponseUtils.getStatusCode();
 
@@ -28,27 +29,27 @@ public class CreatePostsPositiveTests {
     @ParameterizedTest
     @CsvSource(
             {
-                    "6,Title4,Author4",
-                    "6,Title5,Author5"
+                    "3,Title3,3",
+                    "4,Title4,4"
             }
     )
-    public void validatePostCreation(int id, String title, String author) {
+    public void validateCommentCreation(int id, String body, int postId) {
 
-        Post actualPost = new Post(id, title, author);
+        Comment actualComment = new Comment(id, body, postId);
 
-        String jsonStringByObject = RequestUtils.getJsonStringByObject(actualPost);
+        String jsonStringByObject = RequestUtils.getJsonStringByObject(actualComment);
 
-        RequestUtils.post("/posts", jsonStringByObject);
+        RequestUtils.post("/comments", jsonStringByObject);
 
         int statusCode = ResponseUtils.getStatusCode();
 
         Assertions.assertEquals(201, statusCode);
 
-        RequestUtils.get("/posts", id);
+        RequestUtils.get("/comments", id);
 
-        Post expectedPost = ResponseUtils.getObjectByJsonString(Post.class);
+        Comment expectedComment = ResponseUtils.getObjectByJsonString(Comment.class);
 
-        Assertions.assertEquals(actualPost, expectedPost);
+        Assertions.assertEquals(expectedComment, actualComment);
     }
 
 }
