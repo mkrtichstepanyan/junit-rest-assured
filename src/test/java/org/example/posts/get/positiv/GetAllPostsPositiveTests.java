@@ -1,4 +1,4 @@
-package org.example.posts.get;
+package org.example.posts.get.positiv;
 
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
@@ -9,14 +9,14 @@ public class GetAllPostsPositiveTests {
 
     @Test
     public void validateStatusCode() {
-        RequestUtils.get();
+        RequestUtils.getAllPosts();
         int statusCode = ResponseUtils.getStatusCode();
         Assertions.assertEquals(200, statusCode);
     }
 
     @Test
     public void validateResponseByJsonSchema() {
-        RequestUtils.get();
+        RequestUtils.getAllPosts();
         ResponseUtils.validateResponseByJsonSchema();
     }
 }
