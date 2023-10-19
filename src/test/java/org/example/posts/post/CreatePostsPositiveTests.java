@@ -1,7 +1,9 @@
 package org.example.posts.post;
 
+import io.restassured.specification.RequestSpecification;
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
+import org.example.dataproviders.requestspecifications.RequestSpecificationProvider;
 import org.example.models.Post;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,14 +12,17 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 public class CreatePostsPositiveTests {
 
+    RequestSpecification postSpecs = RequestSpecificationProvider.getRequestSpecificationByRequestMethod("POST");
+    RequestSpecification getSpecs = RequestSpecificationProvider.getRequestSpecificationByRequestMethod("GET");
+
     @Test
     public void validatePostCreation() {
 
-        Post post = new Post(3, "Title3", "Author3");
+        Post post = new Post(10, "Title3", "Author3");
 
         String jsonStringByObject = RequestUtils.getJsonStringByObject(post);
 
-        RequestUtils.post("/posts", jsonStringByObject);
+        RequestUtils.post(postSpecs, "/posts", jsonStringByObject);
 
         int statusCode = ResponseUtils.getStatusCode();
 
@@ -38,13 +43,14 @@ public class CreatePostsPositiveTests {
 
         String jsonStringByObject = RequestUtils.getJsonStringByObject(actualPost);
 
-        RequestUtils.post("/posts", jsonStringByObject);
+        RequestUtils.post(postSpecs, "/posts", jsonStringByObject);
 
         int statusCode = ResponseUtils.getStatusCode();
 
         Assertions.assertEquals(201, statusCode);
 
-        RequestUtils.get("/posts", id);
+
+        RequestUtils.get(getSpecs, "/posts", id);
 
         Post expectedPost = ResponseUtils.getObjectByJsonString(Post.class);
 

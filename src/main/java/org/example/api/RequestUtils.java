@@ -3,9 +3,10 @@ package org.example.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
+
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
@@ -17,29 +18,37 @@ public final class RequestUtils {
 
     private static ValidatableResponse response;
 
-    static {
-        RestAssured.baseURI = "http://localhost:3000";
-    }
 
-    public static void get(String endpoint) {
+    public static void get(RequestSpecification spec, String endpoint) {
         response = given()
                 .when()
+                .spec(spec)
                 .get(endpoint)
                 .then();
     }
 
-    public static void get(String endpoint, int id) {
+    public static void get(RequestSpecification spec, String endpoint, int id) {
         response = given()
                 .when()
+                .spec(spec)
                 .get(endpoint + id)
                 .then();
     }
 
-
-    public static void post(String endpoint, String body) {
+    public static void get(RequestSpecification spec, String endpoint, Map<String, Object> params) {
         response = given()
                 .when()
-                .contentType(ContentType.JSON)
+                .queryParams(params)
+                .spec(spec)
+                .get(endpoint)
+                .then();
+    }
+
+
+    public static void post(RequestSpecification spec, String endpoint, String body) {
+        response = given()
+                .when()
+                .spec(spec)
                 .body(body)
                 .post(endpoint)
                 .then();
@@ -56,4 +65,6 @@ public final class RequestUtils {
         }
         return jsonString;
     }
+
+
 }
