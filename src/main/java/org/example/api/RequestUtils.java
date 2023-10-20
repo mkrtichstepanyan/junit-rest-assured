@@ -196,6 +196,16 @@ public final class RequestUtils {
 
     }
 
+    public static void getProfile(){
+        String path = "/profile";
+
+        response = given()
+                .when()
+                .get(path)
+                .then()
+                .log().ifError();
+    }
+
     public static String objectToJson(Object o) {
         String jsonString;
         ObjectMapper om = new ObjectMapper();
