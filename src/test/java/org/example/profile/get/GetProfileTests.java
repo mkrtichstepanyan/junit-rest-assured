@@ -1,43 +1,27 @@
-package org.example.posts.get;
+package org.example.profile.get;
 
 import io.restassured.specification.RequestSpecification;
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
 import org.example.dataproviders.requestspecification.RequestSpecificationProvider;
-import org.example.pojos.posts.PostsRoot;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-
-public class GetAllPostsPositiveTests {
-
+public class GetProfileTests {
     RequestSpecification getSpecs = RequestSpecificationProvider.getRequestSpecificationByRequestMethod("GET");
+
     @Test
     public void validateStatusCode() {
-
-        RequestUtils.get(getSpecs, "/posts");
+        RequestUtils.get(getSpecs,"/profile");
         int statusCode = ResponseUtils.getStatusCode();
         Assertions.assertEquals(200, statusCode);
     }
 
-
     @Test
     public void validateResponseByJsonSchema() {
-        RequestUtils.get(getSpecs, "/posts");
-        ResponseUtils.validateResponseByJsonSchema("validatorschemas/getAllPostsValidatorSchema.json");
+        RequestUtils.get(getSpecs,"/profile");
+        ResponseUtils.validateResponseByJsonSchema("validatorschemas/getProfileValidatorSchemas.json");
     }
 
 
-    @Test
-    public void validateGetPostById() {
-
-        RequestUtils.get(getSpecs, "/posts/1");
-
-        PostsRoot objectByJsonString = ResponseUtils.getObjectByJsonString(PostsRoot.class);
-
-        ResponseUtils.getStringValueByJsonPath("id");
-
-    }
 }
-
-

@@ -10,7 +10,6 @@ public class PostsRoot {
     public String title;
     @JsonProperty
     public String author;
-    @JsonProperty
-    public User user;
+
 
 }

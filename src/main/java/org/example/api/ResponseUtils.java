@@ -17,15 +17,15 @@ public class ResponseUtils {
         return getResponse().extract().statusCode();
     }
 
-
-    public static void validateResponseByJsonSchema() {
+String schemaClassPath ;
+    public static void validateResponseByJsonSchema(String schemaClassPath) {
         JsonSchemaFactory jsonSchemaFactory = JsonSchemaFactory.newBuilder()
                 .setValidationConfiguration(
                         ValidationConfiguration.newBuilder()
                                 .setDefaultVersion(SchemaVersion.DRAFTV4).freeze())
                 .freeze();
         getResponse().assertThat()
-                .body(matchesJsonSchemaInClasspath("validatorschemas/getAllPostsValidatorSchema.json")
+                .body(matchesJsonSchemaInClasspath(schemaClassPath)
                         .using(jsonSchemaFactory));
     }
 

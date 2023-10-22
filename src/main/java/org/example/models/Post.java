@@ -21,12 +21,10 @@ public class Post {
     public Post() {
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Post post = (Post) o;
+        if (!(o instanceof Post post)) return false;
         return id == post.id && title.equals(post.title) && author.equals(post.author);
     }
 
