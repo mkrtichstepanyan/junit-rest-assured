@@ -4,8 +4,17 @@ package org.example.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
+import org.example.models.Comment;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
@@ -21,59 +30,65 @@ public final class RequestUtils {
         RestAssured.baseURI = "http://localhost:3000";
     }
 
-    public static void get(String endpoint) {
+    public static void get(RequestSpecification spec, String endpoint) {
         response = given()
                 .when()
+                .spec(spec)
                 .get(endpoint)
                 .then();
     }
 
-    public static void get(String endpoint, int id) {
+    public static void get(RequestSpecification spec, String endpoint, int id) {
         response = given()
                 .when()
+                .spec(spec)
                 .get(endpoint + id)
                 .then();
     }
 
-    public static void get(String endpoint, String paramKey, String paramValue) {
+    public static void get(RequestSpecification spec, String endpoint, Map<String, Object> params) {
         response = given()
-                .queryParam(paramKey, paramValue)
+                .queryParams(params)
                 .when()
+                .spec(spec)
                 .get(endpoint)
                 .then();
     }
 
 
-    public static void post(String endpoint, String body) {
+    public static void post(RequestSpecification spec, String endpoint, String body) {
         response = given()
                 .when()
-                .contentType(ContentType.JSON)
+                .spec(spec)
                 .body(body)
                 .post(endpoint)
                 .then();
     }
 
-    public static void put(String endpoint, String body) {
+    public static void put(RequestSpecification spec, String endpoint, String body) {
         response = given()
                 .contentType(ContentType.JSON)
                 .when()
+                .spec(spec)
                 .body(body)
                 .put(endpoint)
                 .then();
     }
 
-    public static void patch(String endpoint, String patchData) {
+    public static void patch(RequestSpecification spec, String endpoint, String patchData) {
         response = given()
                 .contentType(ContentType.JSON)
                 .when()
+                .spec(spec)
                 .body(patchData)
                 .patch(endpoint)
                 .then();
     }
 
-    public static void delete(String endpoint, int id) {
+    public static void delete(RequestSpecification spec, String endpoint, int id) {
         response = given()
                 .when()
+                .spec(spec)
                 .delete(endpoint + id)
                 .then();
     }
@@ -89,4 +104,12 @@ public final class RequestUtils {
         }
         return jsonString;
     }
+
+
+    public static List<HashMap<String, Object>> readJsonFile(String filePath) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        return objectMapper.readValue(new File(filePath), objectMapper.getTypeFactory().constructCollectionType(List.class, Map.class));
+    }
+
 }

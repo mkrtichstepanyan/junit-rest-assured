@@ -1,7 +1,9 @@
 package org.example.posts.post;
 
+import io.restassured.specification.RequestSpecification;
 import org.example.api.RequestUtils;
 import org.example.api.ResponseUtils;
+import org.example.dataProviders.requestSpecifications.RequestSpecificationProvider;
 import org.example.models.Post;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -9,6 +11,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class CreatePostsPositiveTests {
+    public String endpoint = "/posts/";
+    RequestSpecification postSpecs = RequestSpecificationProvider.getRequestSpecificationByRequestMethod("POST");
 
     @Test
     public void validatePostCreation() {
@@ -17,7 +21,7 @@ public class CreatePostsPositiveTests {
 
         String jsonStringByObject = RequestUtils.getJsonStringByObject(post);
 
-        RequestUtils.post("/posts", jsonStringByObject);
+        RequestUtils.post(postSpecs, endpoint, jsonStringByObject);
 
         int statusCode = ResponseUtils.getStatusCode();
 
@@ -38,13 +42,13 @@ public class CreatePostsPositiveTests {
 
         String jsonStringByObject = RequestUtils.getJsonStringByObject(actualPost);
 
-        RequestUtils.post("/posts", jsonStringByObject);
+        RequestUtils.post(postSpecs, endpoint, jsonStringByObject);
 
         int statusCode = ResponseUtils.getStatusCode();
 
         Assertions.assertEquals(201, statusCode);
 
-        RequestUtils.get("/posts/", id);
+        RequestUtils.get(postSpecs, endpoint, id);
 
         Post expectedPost = ResponseUtils.getObjectByJsonString(Post.class);
 
