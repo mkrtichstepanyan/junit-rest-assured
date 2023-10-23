@@ -12,10 +12,26 @@ public class Post {
     @JsonProperty
     public String author;
 
+
     public Post(int id, String title, String author) {
         this.id = id;
         this.title = title;
         this.author = author;
+    }
+    public Post(int id, String title, String author, String redundant) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+    }
+
+    public Post(int id, String title){
+        this.id = id;
+        this.title = title;
+    }
+
+    public Post(String author, int id){
+        this.author = author;
+        this.id = id;
     }
 
     public Post() {
