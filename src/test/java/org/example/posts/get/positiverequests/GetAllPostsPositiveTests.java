@@ -1,4 +1,4 @@
-package org.example.posts.get;
+package org.example.posts.get.positiverequests;
 
 import io.restassured.specification.RequestSpecification;
 import org.example.api.RequestUtils;
@@ -26,13 +26,12 @@ public class GetAllPostsPositiveTests {
     public void validateResponseByJsonSchema() {
 
         RequestUtils.get(getSpecs, "/posts");
-        ResponseUtils.validateResponseByJsonSchema();
+        ResponseUtils.validateResponseByJsonSchema("validatorschemas/getAllPostsValidatorSchema.json");
     }
-
 
     @Test
     public void validateGetPostById() {
-        RequestUtils.get(getSpecs, "/posts/1");
+        RequestUtils.get(getSpecs, "/posts/", 1);
 
         PostsRoot objectByJsonString = ResponseUtils.getObjectByJsonString(PostsRoot.class);
 

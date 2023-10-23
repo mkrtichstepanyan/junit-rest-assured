@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "maxLength": 10,
+      "minLength": 3
+    },
+    "surname": {
+      "type": "string",
+      "maxLength": 14,
+      "minLength": 4
+    },
+    "age": {
+      "type": "integer",
+      "maximum": 65,
+      "minimum": 18
+    }
+  },
+  "required": [
+    "name",
+    "surname",
+    "age"
+  ]
+}
