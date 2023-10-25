@@ -13,19 +13,21 @@ public class RequestSpecificationProvider {
 
         requestSpecification = new RequestSpecBuilder()
                 .setBaseUri("http://localhost:3000")
-                .addHeader("Authorization", "Bearer asdasdawdasd" )
+//                .addHeader("Authorization", "Bearer asdasdawdasd" )
                 .build();
 
         switch (requestMethod) {
             case "GET":
-                requestSpecification.contentType(ContentType.ANY);
+                requestSpecification.contentType(ContentType.JSON);
                 break;
             case "POST":
                 requestSpecification.contentType(ContentType.JSON);
                 break;
             case "PUT":
-                requestSpecification.contentType(ContentType.ANY);
+                requestSpecification.contentType(ContentType.JSON);
                 break;
+            default:
+                requestSpecification.contentType(ContentType.JSON);
         }
         return requestSpecification;
     }

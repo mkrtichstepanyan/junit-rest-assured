@@ -1,4 +1,4 @@
-package org.example.posts.post;
+package org.example.posts.post.positiveTests;
 
 import io.restassured.specification.RequestSpecification;
 import org.example.api.RequestUtils;
@@ -17,15 +17,10 @@ public class CreatePostsPositiveTests {
 
     @Test
     public void validatePostCreation() {
-
         Post post = new Post(10, "Title3", "Author3");
-
         String jsonStringByObject = RequestUtils.getJsonStringByObject(post);
-
         RequestUtils.post(postSpecs, "/posts", jsonStringByObject);
-
         int statusCode = ResponseUtils.getStatusCode();
-
         Assertions.assertEquals(201, statusCode);
     }
 
@@ -33,28 +28,20 @@ public class CreatePostsPositiveTests {
     @ParameterizedTest
     @CsvSource(
             {
-                    "6,Title4,Author4",
-                    "6,Title5,Author5"
+                    "6,Title6,Author6",
+                    "7,Title7,Author7"
             }
     )
     public void validatePostCreation(int id, String title, String author) {
-
-        Post actualPost = new Post(id, title, author);
-
-        String jsonStringByObject = RequestUtils.getJsonStringByObject(actualPost);
-
+        Post expectedPost = new Post(id, title, author);
+        String jsonStringByObject = RequestUtils.getJsonStringByObject(expectedPost);
         RequestUtils.post(postSpecs, "/posts", jsonStringByObject);
-
         int statusCode = ResponseUtils.getStatusCode();
-
         Assertions.assertEquals(201, statusCode);
 
-
-        RequestUtils.get(getSpecs, "/posts", id);
-
-        Post expectedPost = ResponseUtils.getObjectByJsonString(Post.class);
-
-        Assertions.assertEquals(actualPost, expectedPost);
+        RequestUtils.get(getSpecs, "/posts/", id);
+        Post actualPost = ResponseUtils.getObjectByJsonString(Post.class);
+        Assertions.assertEquals(expectedPost, actualPost);
     }
 
 }

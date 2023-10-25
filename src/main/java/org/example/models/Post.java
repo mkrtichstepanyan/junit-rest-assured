@@ -18,9 +18,15 @@ public class Post {
         this.author = author;
     }
 
-    public Post() {
+    public Post(int id, String title, String author, String redundant) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
     }
 
+    public Post() {
+
+    }
 
     @Override
     public boolean equals(Object o) {
